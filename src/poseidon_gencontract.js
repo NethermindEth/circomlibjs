@@ -92,8 +92,8 @@ export function createCode(nInputs) {
             C.pop();
         }
         C.push(0);
-        C.mload();
-        C.jmp();
+        C.mload(); // loads the counter to location of 'aftermix + i'
+        C.jmp(); // jumps back within the rounds loop
     }
 
 
@@ -148,7 +148,20 @@ export function createCode(nInputs) {
 
     C.push("0x00");
     C.mstore();     // Save it to pos 0;
+
+    // C.pop() // pops thelocation in memory to written to previously.
+    // C.pop() // pops the first result element 
+
     C.push("0x20");
+    C.mstore();     // Save it to pos 1;
+
+    // C.pop() // pops thelocation in memory to written to previously.
+    // C.pop() // pops the first result element 
+
+    C.push("0x40");
+    C.mstore();     // Save it to pos 2;
+
+    C.push("0x60"); // 96 number of bytes from memory to return
     C.push("0x00");
     C.return();
 
@@ -171,9 +184,9 @@ export function generateABI(nInputs) {
             "name": "poseidon",
             "outputs": [
                 {
-                    "internalType": "bytes32",
-                    "name": "",
-                    "type": "bytes32"
+                    "internalType": `bytes32[${nInputs}]`,
+                    "name": "input",
+                    "type": `bytes32[${nInputs}]`
                 }
             ],
             "payable": false,
@@ -192,9 +205,9 @@ export function generateABI(nInputs) {
             "name": "poseidon",
             "outputs": [
                 {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
+                    "internalType": `uint256[${nInputs + 1}]`,
+                    "name": "input",
+                    "type": `uint256[${nInputs + 1}]`
                 }
             ],
             "payable": false,

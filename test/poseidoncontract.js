@@ -41,11 +41,11 @@ describe("Poseidon Smart contract test", function () {
 
     it("Should calculate the poseidon correctly t=3", async () => {
 
-        const res = await poseidon3["poseidon(uint256[2])"]([1, 2]);
+        const res = await poseidon3["poseidon(uint256[2])"]([0, 0]);
 
         console.log("Cir: " + res);
 
-        const res2 = poseidon([1, 2], 2); // 3rd param has to be 2 per starkwares implmentation
+        const res2 = poseidon([0, 0], 0); // 3rd param has to be 2 per starkwares implmentation
         console.log("Ref: " + res2);
 
         assert.equal(res.toString(), res2.toString());
