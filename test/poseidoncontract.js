@@ -30,8 +30,8 @@ describe("Poseidon Smart contract test", function () {
         //     account
         // );
         const C3 = new ethers.ContractFactory(
-            generateABI(2),
-            createCode(2),
+            generateABI(3),
+            createCode(3),
             account
         );
 
@@ -41,11 +41,11 @@ describe("Poseidon Smart contract test", function () {
 
     it("Should calculate the poseidon correctly t=3", async () => {
 
-        const res = await poseidon3["poseidon(uint256[2])"]([0, 0]);
+        const res = await poseidon3["poseidon(uint256[3])"]([0, 0, 0]);
 
         console.log("Cir: " + res);
-
-        const res2 = poseidon([0, 0], 0); // 3rd param has to be 2 per starkwares implmentation
+        // comparing results with -> https://github.com/starkware-industries/poseidon
+        const res2 = poseidon([0, 0, 0]);
         console.log("Ref: " + res2);
 
         assert.equal(res.toString(), res2.toString());

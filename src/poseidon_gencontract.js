@@ -14,7 +14,7 @@ import poseidonConstants from "./poseidon_constants.js";
 const { C: K, M } = unstringifyBigInts(poseidonConstants);
 
 const N_ROUNDS_F = 8;
-const N_ROUNDS_P = [56, 83, 56, 60, 60, 63, 64, 63];
+const N_ROUNDS_P = 83;
 
 function toHex256(a) {
     let S = a.toString(16);
@@ -24,10 +24,10 @@ function toHex256(a) {
 
 export function createCode(nInputs) {
 
-    if ((nInputs != 2)) throw new Error("Invalid number of inputs. Must be 2");
-    const t = nInputs + 1;
+    if ((nInputs != 3)) throw new Error("Invalid number of inputs. Must be 3");
+    const t = nInputs;
     const nRoundsF = N_ROUNDS_F;
-    const nRoundsP = N_ROUNDS_P[t - 2];
+    const nRoundsP = N_ROUNDS_P;
 
     const C = new Contract();
 
@@ -116,13 +116,13 @@ export function createCode(nInputs) {
 
     saveM();
 
-    C.push("0x0800000000000011000000000000000000000000000000000000000000000001");  // q
+    C.push("0x0800000000000011000000000000000000000000000000000000000000000001");  // q this is the big prime in starknet
 
     // Load t values from the call data.
     // The function has a single array param param
     // [Selector (4)] [item1 (32)] [item2 (32)] ....
     // Stack positions 0-nInputs.
-    C.push(2); // per starkwares implementation ->    https://github.com/starkware-libs/cairo-lang/blob/12ca9e91bbdc8a423c63280949c7e34382792067/src/starkware/cairo/common/poseidon_hash.py#L31
+    //    C.push(0); // per starkwares implementation ->    https://github.com/starkware-libs/cairo-lang/blob/12ca9e91bbdc8a423c63280949c7e34382792067/src/starkware/cairo/common/poseidon_hash.py#L31
     for (let i = 0; i < nInputs; i++) {
         C.push(0x04 + (0x20 * (nInputs - i - 1)));
         C.calldataload();
@@ -205,9 +205,9 @@ export function generateABI(nInputs) {
             "name": "poseidon",
             "outputs": [
                 {
-                    "internalType": `uint256[${nInputs + 1}]`,
+                    "internalType": `uint256[${nInputs}]`,
                     "name": "input",
-                    "type": `uint256[${nInputs + 1}]`
+                    "type": `uint256[${nInputs}]`
                 }
             ],
             "payable": false,
