@@ -17,7 +17,7 @@ npm install -g circomlibjs
 
 
 #Forked off of iden3/circomlibjs
-This fork has been changed to support Starkware version of Poseidon3 contract for ethereum L1. Current version has been deployed on goerli at 0x84d43a8cbEbF4F43863f399c34c06fC109c957a4. Byte code and abi included in the deployed folder. The updated implementation is reflected in Javascript(Poseidon_refernce.js) and podeidon_gencontract.js
+This fork has been changed to support Starkware version of Poseidon3 contract for ethereum L1. Current version has been deployed on goerli at 0x84d43a8cbEbF4F43863f399c34c06fC109c957a4. Byte code and abi included in the deployed folder. The updated implementation is reflected in Javascript(Poseidon_refernce.js) and EVM/Solidity OpCodes (podeidon_gencontract.js)
 
 #Disclaimer
 The above contract has not been audited. Should not be used in Mainnet/Production
