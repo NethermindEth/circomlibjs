@@ -24,18 +24,12 @@ describe("Poseidon Smart contract test", function () {
     });
 
     it("Should deploy the contract", async () => {
-        // const C6 = new ethers.ContractFactory(
-        //     generateABI(5),
-        //     createCode(5),
-        //     account
-        // );
         const C3 = new ethers.ContractFactory(
             generateABI(3),
             createCode(3),
             account
         );
 
-        // poseidon6 = await C6.deploy();
         poseidon3 = await C3.deploy();
     });
 

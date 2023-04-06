@@ -21,7 +21,6 @@ describe("Poseidon test", function () {
 
     it("Should check constrain reference implementation poseidonperm_x5_254_3", async () => {
         const res1 = poseidonReference([1, 2, 2]);
-        let buffer = res1.buffer;
 
         //console.log(" poseidonReference res1 ", res1[0]);
         assert(poseidonReference.F.eq(poseidonReference.F.e("0x5d44a3decb2b2e0cc71071f7b802f45dd792d064f0fc7316c46514f70f9891a"), res1[0]));
