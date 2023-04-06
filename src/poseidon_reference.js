@@ -6,9 +6,9 @@ import poseidonConstants from "./poseidon_constants.js";
 
 function unsringifyConstants(Fr, o) {
     if ((typeof (o) == "string") && (/^[0-9]+$/.test(o))) {
-        return Scalar.e(o);
+        return Fr.e(o);
     } else if ((typeof (o) == "string") && (/^0x[0-9a-fA-F]+$/.test(o))) {
-        return Scalar.e(o);
+        return Fr.e(o);
     } else if (Array.isArray(o)) {
         return o.map(unsringifyConstants.bind(null, Fr));
     } else if (typeof o == "object") {
