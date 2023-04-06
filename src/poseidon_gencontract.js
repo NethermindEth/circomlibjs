@@ -52,6 +52,7 @@ export function createCode(nInputs) {
         }
     }
 
+    // P is in the index in the state, sigma calculates the pow (st[p],3)
     function sigma(p) {
         // st, q
         C.dup(t);   // q, st, q
@@ -122,7 +123,6 @@ export function createCode(nInputs) {
     // The function has a single array param param
     // [Selector (4)] [item1 (32)] [item2 (32)] ....
     // Stack positions 0-nInputs.
-    //    C.push(0); // per starkwares implementation ->    https://github.com/starkware-libs/cairo-lang/blob/12ca9e91bbdc8a423c63280949c7e34382792067/src/starkware/cairo/common/poseidon_hash.py#L31
     for (let i = 0; i < nInputs; i++) {
         C.push(0x04 + (0x20 * (nInputs - i - 1)));
         C.calldataload();
@@ -136,6 +136,9 @@ export function createCode(nInputs) {
                 sigma(j);
             }
         } else {
+            // partial round
+            //the line below maps to this line in the python implementation https://github.com/starkware-libs/cairo-lang/blob/12ca9e91bbdc8a423c63280949c7e34382792067/src/starkware/cairo/common/poseidon_utils.py#L85
+            // or the GO implementation here -> https://github.com/NethermindEth/juno/blob/8aad125ce11ce4bfc1df71d253a45f71a259ab16/core/crypto/poseidon_hash.go#L22
             sigma(2);
         }
         const strLabel = "aferMix" + i;
@@ -149,14 +152,8 @@ export function createCode(nInputs) {
     C.push("0x00");
     C.mstore();     // Save it to pos 0;
 
-    // C.pop() // pops thelocation in memory to written to previously.
-    // C.pop() // pops the first result element 
-
     C.push("0x20");
     C.mstore();     // Save it to pos 1;
-
-    // C.pop() // pops thelocation in memory to written to previously.
-    // C.pop() // pops the first result element 
 
     C.push("0x40");
     C.mstore();     // Save it to pos 2;
@@ -216,6 +213,3 @@ export function generateABI(nInputs) {
         }
     ];
 }
-
-
-
