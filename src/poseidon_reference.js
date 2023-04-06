@@ -42,17 +42,10 @@ export default async function buildPoseidon() {
 
     function poseidon(inputs) {
         assert(inputs.length == 3); // Only Poseidon3 is supported for starkware
-        // assert(inputs.length <= N_ROUNDS_P.length);
 
         const t = inputs.length;
         const nRoundsF = N_ROUNDS_F;
         const nRoundsP = N_ROUNDS_P;
-
-        // if (initState) {
-        //     initState = Scalar.e(initState);
-        // } else {
-        //     initState = Scalar.zero;
-        // }
 
         let state = [...inputs.map(a => Scalar.e(a))];
         for (let r = 0; r < nRoundsF + nRoundsP; r++) {
